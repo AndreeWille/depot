@@ -15,14 +15,6 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should create line_item' do
-    assert_difference('LineItem.count') do
-      post line_items_url, params: { product_id: @line_item.product_id }
-    end
-
-    assert_redirected_to cart_url(Cart.last)
-  end
-
   test 'should show line_item' do
     get line_item_url(@line_item)
     assert_response :success
@@ -51,9 +43,11 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
       post line_items_url, params: { product_id: products(:ruby).id }
     end
 
+    assert_redirected_to cart_url(Cart.last)
+
     follow_redirect!
 
     assert_select 'h2', 'Your Pragmatic Cart'
-    assert_select 'li', products(:ruby).title.to_s
+    assert_select 'li', "1 \u00D7 #{products(:ruby).title}"
   end
 end

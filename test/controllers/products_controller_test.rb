@@ -39,9 +39,17 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to product_url(@product)
   end
 
-  test 'should destroy product' do
+  test 'should destroy product that is not referenced as line item' do
     assert_difference('Product.count', -1) do
       delete product_url(@product)
+    end
+
+    assert_redirected_to products_url
+  end
+
+  test 'should not destroy product that is referenced as line item' do
+    assert_no_difference('Product.count') do
+      delete product_url(products(:two))
     end
 
     assert_redirected_to products_url
