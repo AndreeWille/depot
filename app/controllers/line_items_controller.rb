@@ -33,6 +33,7 @@ class LineItemsController < ApplicationController
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to store_index_url }
+        format.js
       else
         format.html { render :new }
       end
