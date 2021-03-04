@@ -43,11 +43,9 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
       post line_items_url, params: { product_id: products(:ruby).id }
     end
 
-    assert_redirected_to cart_url(Cart.last)
-
     follow_redirect!
 
-    assert_select 'h2', 'Your Pragmatic Cart'
-    assert_select 'li', "1 \u00D7 #{products(:ruby).title}"
+    assert_select 'h2', 'Your Cart'
+    assert_select 'td', products(:ruby).title
   end
 end
