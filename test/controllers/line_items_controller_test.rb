@@ -48,4 +48,13 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'h2', 'Your Cart'
     assert_select 'td', products(:ruby).title
   end
+
+  test 'creates line items via ajax' do
+    assert_difference('LineItem.count') do
+      post line_items_url, params: { product_id: products(:ruby).id }, xhr: true
+    end
+
+    assert_response :success
+    assert_match(/<tr class=\\"line-item-highlight/, @response.body)
+  end
 end
