@@ -3,7 +3,11 @@
     Your Cart
   </h2>
   <table>
-    <%= render(cart.line_items) %>
+    <% if cart.line_items.any? %>
+      <%= render(cart.line_items) %>
+    <% else %>
+      <%= render('line_items/empty_line_item') %>
+    <% end %>
     <tfoot>
       <tr>
         <th colspan="2">
@@ -15,5 +19,5 @@
       </tr>
     </tfoot>
   </table>
-  <%= button_to 'Empty Cart', cart, method: :delete, data: { confirm: 'Are you sure'} %>
+  <%= button_to 'Empty Cart', cart, method: :delete, data: { confirm: 'Are you sure'}, remote: true %>
 </article>

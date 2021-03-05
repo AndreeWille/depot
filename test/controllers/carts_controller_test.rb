@@ -35,18 +35,16 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should update cart' do
-    patch cart_url(@cart), params: { cart: {} }
-    assert_redirected_to cart_url(@cart)
-  end
-
   test 'should destroy cart' do
-    post line_items_url, params: { product_id: products(:ruby).id }
-    @cart = Cart.find(session[:cart_id])
-    assert_difference('Cart.count', -1) do
-      delete cart_url(@cart)
-    end
+    cart_id_increment = 1
 
-    assert_redirected_to store_index_url
+    post line_items_url, params: { product_id: products(:ruby).id }, xhr: true
+    old_cart_id = Cart.find(session[:cart_id]).id
+
+    delete cart_url(@cart)
+
+    new_cart_id = Cart.find(session[:cart_id]).id
+
+    assert new_cart_id == old_cart_id + cart_id_increment
   end
 end
