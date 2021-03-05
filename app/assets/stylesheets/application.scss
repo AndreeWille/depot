@@ -47,6 +47,7 @@ header.main {
     @media (min-width: 30em) {
       padding: 1em;
       text-align: left;
+      min-width: 383px;
     }
     ul {
       list-style: none;
@@ -55,6 +56,7 @@ header.main {
       text-transform: uppercase;
       letter-spacing: 0.354em;
       a {
+        font-weight: bold;
         color: #bfb;
         text-decoration: none;
       }
@@ -79,6 +81,8 @@ header.main {
     text-align: center;
   }
   #cart {
+    margin-bottom: 1em;
+    margin-top: 0.8em;
     article {
       h2 {
         margin-top: 0;
@@ -89,6 +93,7 @@ header.main {
       padding: 1.414em;
       @media (min-width: 30em) {
         margin: 0; // desktop doesnt need this margin
+        min-width: 320px;
       }
     }
   }
