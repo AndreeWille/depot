@@ -10,6 +10,16 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'shows products alphabetically sorted' do
+    product_a = Product.create(title: 'ABC', description: 'description for bok ABC', image_url: 'crystal.jpg', price: '0.01')
+    product_b = Product.create(title: 'bcd', description: 'description for bok bcd', image_url: 'crystal.jpg', price: '0.01')
+    expected_book_order = [product_a, product_b]
+
+    get products_url
+
+    assert expected_book_order == assigns(:products) & expected_book_order
+  end
+
   test 'should get new' do
     get new_product_url
     assert_response :success

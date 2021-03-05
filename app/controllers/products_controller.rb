@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.all.order(:title)
   end
 
   # GET /products/1
@@ -41,10 +41,9 @@ class ProductsController < ApplicationController
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
+        broadcast_product_updates
       else
         format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,5 +68,13 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.require(:product).permit(:title, :description, :image_url, :price)
+  end
+
+  def broadcast_product_updates
+    @products = Product.all.order(:title)
+    ActionCable.server.broadcast(
+      'products',
+      html: render_to_string('store/index', layout: false)
+    )
   end
 end
